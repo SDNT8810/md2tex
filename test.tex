@@ -15,12 +15,19 @@
 % Number subsubsections as 1, 2, 3 (no parent prefixes like 0.0.1)
 \setcounter{secnumdepth}{3}
 \renewcommand\thesubsubsection{\arabic{subsubsection}}
-\usepackage{fontspec}
-\newcommand{\TrySetMono}[1]{\IfFontExistsTF{#1}{\setmonofont{#1}}{}}
-\TrySetMono{Consolas}
-\TrySetMono{DejaVu Sans Mono}
-\TrySetMono{Fira Code}
-\TrySetMono{Courier New}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage{lmodern}
+\else
+  \usepackage{fontspec}
+  \newcommand{\TrySetMono}[1]{\IfFontExistsTF{#1}{\setmonofont{#1}}{}}
+  \TrySetMono{Consolas}
+  \TrySetMono{DejaVu Sans Mono}
+  \TrySetMono{Fira Code}
+  \TrySetMono{Courier New}
+\fi
 
 \begin{document}
 

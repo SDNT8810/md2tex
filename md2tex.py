@@ -16,8 +16,8 @@ EMOJI_RE = re.compile('[\U0001F1E6-\U0001F1FF'  # Flags
                       '\U00002600-\U000026FF'   # Misc Symbols
                       '\U00002700-\U000027BF'   # Dingbats
                       '\U0001F3FB-\U0001F3FF'   # Skin tone modifiers
-                      '\U0000200D'               # Zero Width Joiner
-                      '\U0000FE0F]')             # Variation Selector-16
+                      '\U0000200D'              # Zero Width Joiner
+                      '\U0000FE0F]')            # Variation Selector-16
 
 def _strip_emojis(text: str) -> str:
     return EMOJI_RE.sub('', text)
@@ -407,17 +407,22 @@ def md_to_latex(md_text, engine: str = 'pdflatex', system_name: str = None):
     
     text = '\n'.join(result)
     
-    # Engine-specific preamble
-    engine_preamble = ''
-    if engine in ('xelatex', 'lualatex'):
-        # Use fontspec for Unicode; try to set a monospaced font if available
-        engine_preamble += "\\usepackage{fontspec}\n"
-        engine_preamble += "\\newcommand{\\TrySetMono}[1]{\\IfFontExistsTF{#1}{\\setmonofont{#1}}{}}\n"
-        # Try common fonts in order without failing if missing
-        engine_preamble += "\\TrySetMono{Consolas}\n\\TrySetMono{DejaVu Sans Mono}\n\\TrySetMono{Fira Code}\n\\TrySetMono{Courier New}\n"
-    else:
-        # For pdfLaTeX, ensure UTF-8 input handling for non-ASCII outside verbatim
-        engine_preamble += "\\usepackage[utf8]{inputenc}\n"
+    # Engine-flexible preamble using iftex so the same .tex works with pdfLaTeX or Xe/LuaLaTeX
+    engine_preamble = (
+        "\\usepackage{iftex}\n"
+        "\\ifPDFTeX\n"
+        "  \\usepackage[utf8]{inputenc}\n"
+        "  \\usepackage[T1]{fontenc}\n"
+        "  \\usepackage{lmodern}\n"
+        "\\else\n"
+        "  \\usepackage{fontspec}\n"
+        "  \\newcommand{\\TrySetMono}[1]{\\IfFontExistsTF{#1}{\\setmonofont{#1}}{}}\n"
+        "  \\TrySetMono{Consolas}\n"
+        "  \\TrySetMono{DejaVu Sans Mono}\n"
+        "  \\TrySetMono{Fira Code}\n"
+        "  \\TrySetMono{Courier New}\n"
+        "\\fi\n"
+    )
 
     latex_doc = f"""\\documentclass{{article}}
 \\usepackage[margin=0.6in]{{geometry}}
@@ -595,6 +600,7 @@ if __name__ == '__main__':
                     # Cleanup only the auxiliary files for this document
                     def _cleanup_aux_files(tex_path: str):
                         base, _ = os.path.splitext(tex_path)
+                        dir_name = os.path.dirname(os.path.abspath(tex_path)) or '.'
                         aux_exts = [
                             '.aux', '.log', '.out', '.toc', '.synctex.gz',
                             '.fls', '.fdb_latexmk', '.nav', '.snm', '.vrb',
@@ -603,6 +609,7 @@ if __name__ == '__main__':
                             '.ist', '.acn', '.acr', '.alg', '.bcf', '.run.xml',
                             '.xdy', '.thm'
                         ]
+                        # Remove aux files for the current jobname
                         for ext in aux_exts:
                             candidate = base + ext
                             try:
@@ -611,6 +618,13 @@ if __name__ == '__main__':
                             except Exception:
                                 # Silently ignore cleanup issues
                                 pass
+                        # Also remove stray texput.log if it exists in the same directory
+                        try:
+                            texput_log = os.path.join(dir_name, 'texput.log')
+                            if os.path.exists(texput_log):
+                                os.remove(texput_log)
+                        except Exception:
+                            pass
                     _cleanup_aux_files(output_file)
                 else:
                     print('✗ PDF compilation failed')
