@@ -1,0 +1,330 @@
+\documentclass{article}
+\usepackage[margin=0.6in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{textcomp}
+\usepackage[official]{eurosym}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+\setlist[itemize]{leftmargin=2em}
+\setlist[enumerate]{leftmargin=2.5em}
+% Number subsubsections as 1, 2, 3 (no parent prefixes like 0.0.1)
+\setcounter{secnumdepth}{3}
+\renewcommand\thesubsubsection{\arabic{subsubsection}}
+\usepackage{fontspec}
+\newcommand{\TrySetMono}[1]{\IfFontExistsTF{#1}{\setmonofont{#1}}{}}
+\TrySetMono{Consolas}
+\TrySetMono{DejaVu Sans Mono}
+\TrySetMono{Fira Code}
+\TrySetMono{Courier New}
+
+\begin{document}
+
+\section{Advanced Mathematical Document}
+
+This document tests all markdown features including special characters, equations, tables, and more. \newline
+
+\subsection{Mathematical Equations}
+
+\subsubsection{Inline Mathematics}
+
+The quadratic formula is $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$ and Euler's identity is $e^{i\pi} + 1 = 0$. \newline
+
+The area of a circle: $A = \pi r^2$ where $r$ is the radius. \newline
+
+\subsubsection{Block Equations}
+
+\textbf{Partial Differential Equation (Heat Equation):} \newline
+
+\[
+\frac{\partial u}{\partial t} = \alpha \frac{\partial^2 u}{\partial x^2}
+\]
+
+\textbf{Navier-Stokes Equation:} \newline
+
+\[
+\rho \left( \frac{\partial \mathbf{v}}{\partial t} + \mathbf{v} \cdot \nabla \mathbf{v} \right) = -\nabla p + \mu \nabla^2 \mathbf{v} + \mathbf{f}
+\]
+
+\textbf{Integral Example:} \newline
+
+\[
+\int_{0}^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+\]
+
+\textbf{Double Integral:} \newline
+
+\[
+\iint_D f(x,y) \, dA = \int_a^b \int_c^d f(x,y) \, dy \, dx
+\]
+
+\textbf{Matrix Example:} \newline
+
+\[
+\mathbf{A} = \begin{bmatrix}
+a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23} \\
+a_{31} & a_{32} & a_{33}
+\end{bmatrix}
+\]
+
+\textbf{Matrix Multiplication:} \newline
+
+\[
+\mathbf{C} = \mathbf{A} \times \mathbf{B} = \begin{pmatrix}
+c_{11} & c_{12} \\
+c_{21} & c_{22}
+\end{pmatrix}
+\]
+
+\textbf{Square Root and Fractions:} \newline
+
+\[
+\sqrt{x^2 + y^2} = \sqrt{\frac{a}{b} + \frac{c}{d}}
+\]
+
+\textbf{Summation and Product:} \newline
+
+\[
+\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6} \quad \text{and} \quad \prod_{i=1}^{n} i = n!
+\]
+
+\textbf{Limit Example:} \newline
+
+\[
+\lim_{x \to \infty} \frac{1}{x} = 0
+\]
+
+\textbf{Taylor Series:} \newline
+
+\[
+f(x) = f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2 + \frac{f'''(a)}{3!}(x-a)^3 + \cdots
+\]
+
+\subsection{Special Characters \& Symbols}
+
+\subsubsection{Greek Letters}
+$\alpha$ (alpha), $\beta$ (beta), $\gamma$ (gamma), $\delta$ (delta), $\varepsilon$ (epsilon), $\zeta$ (zeta), $\eta$ (eta), $\theta$ (theta), $\lambda$ (lambda), $\mu$ (mu), $\pi$ (pi), $\sigma$ (sigma), $\tau$ (tau), $\varphi$ (phi), $\omega$ (omega) \newline
+
+Uppercase: $\Gamma$ (Gamma), $\Delta$ (Delta), $\Theta$ (Theta), $\Lambda$ (Lambda), $\Xi$ (Xi), $\Pi$ (Pi), $\Sigma$ (Sigma), $\Phi$ (Phi), $\Psi$ (Psi), $\Omega$ (Omega) \newline
+
+\subsubsection{Mathematical Operators}
+$\pm$ $\mp$ $\times$ $\div$ $\cdot$ $\sqrt{}$ $\sqrt[3]{}$ $\sqrt[4]{}$ $\infty$ $\propto$ $\approx$ $\neq$ $\equiv$ $\leq$ $\geq$ $\subset$ $\supset$ $\subseteq$ $\supseteq$ $\cap$ $\cup$ $\int$ $\oint$ $\partial$ $\nabla$ $\Delta$ $\prod$ $\sum$ \newline
+
+\subsubsection{Other Symbols}
+\textcopyright{} \textregistered{} \texttrademark{} \texteuro{} \pounds{} \textyen{} \textcent{} \S{} \P{} \dag{} \ddag{} \textbullet{} \textperthousand{} $\prime$ $\prime\prime$ $\prime\prime\prime$ $\rightarrow$ $\leftarrow$ $\uparrow$ $\downarrow$ $\leftrightarrow$ $\Rightarrow$ $\Leftarrow$ $\Leftrightarrow$ \newline
+
+\subsection{Complex Tables}
+
+\subsubsection{Table 1: Special Characters in Cells}
+
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{|p{0.2\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|}
+\hline
+Symbol & Name & LaTeX & Unicode \\
+\hline
+$\alpha$ & Alpha & \texttt{\textbackslash{}alpha} & U+03B1 \\
+\hline
+$\beta$ & Beta & \texttt{\textbackslash{}beta} & U+03B2 \\
+\hline
+$\int$ & Integral & \texttt{\textbackslash{}int} & U+222B \\
+\hline
+$\sum$ & Sum & \texttt{\textbackslash{}sum} & U+2211 \\
+\hline
+$\sqrt{}$ & Square Root & \texttt{\textbackslash{}sqrt\{\}} & U+221A \\
+\hline
+$\infty$ & Infinity & \texttt{\textbackslash{}infty} & U+221E \\
+\hline
+$\approx$ & Approximately & \texttt{\textbackslash{}approx} & U+2248 \\
+\hline
+$\neq$ & Not Equal & \texttt{\textbackslash{}neq} & U+2260 \\
+\hline
+\end{tabular}
+\end{adjustbox}
+
+
+\subsubsection{Table 2: Mathematical Constants}
+
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{|p{0.2\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|}
+\hline
+Constant & Symbol & Approximate Value & Formula \\
+\hline
+Pi & $\pi$ & 3.14159265359 & $\pi = \frac{C}{d}$ \\
+\hline
+Euler's Number & e & 2.71828182846 & $e = \lim_{n \to \infty} (1 + \frac{1}{n})^n$ \\
+\hline
+Golden Ratio & $\varphi$ & 1.61803398875 & $\phi = \frac{1 + \sqrt{5}}{2}$ \\
+\hline
+Planck's Constant & h & 6.62607015 $\times$ 10$^-$$^3$$^4$ J$\cdot$s & $E = h\nu$ \\
+\hline
+\end{tabular}
+\end{adjustbox}
+
+
+\subsubsection{Table 3: Programming Languages \& Operators}
+
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{|p{0.14166666666666666\textwidth}|p{0.14166666666666666\textwidth}|p{0.14166666666666666\textwidth}|p{0.14166666666666666\textwidth}|p{0.14166666666666666\textwidth}|p{0.14166666666666666\textwidth}|}
+\hline
+Language & Addition & Multiplication & Division & Modulo & Power \\
+\hline
+Python & \texttt{a + b} & \texttt{a * b} & \texttt{a / b} & \texttt{a \% b} & \texttt{a ** b} \\
+\hline
+C++ & \texttt{a + b} & \texttt{a * b} & \texttt{a / b} & \texttt{a \% b} & \texttt{pow(a, b)} \\
+\hline
+JavaScript & \texttt{a + b} & \texttt{a * b} & \texttt{a / b} & \texttt{a \% b} & \texttt{a ** b} \\
+\hline
+Java & \texttt{a + b} & \texttt{a * b} & \texttt{a / b} & \texttt{a \% b} & \texttt{Math.pow(a, b)} \\
+\hline
+\end{tabular}
+\end{adjustbox}
+
+
+\subsection{Code Blocks}
+
+\subsubsection{Python Code with Special Characters}
+
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Calculate π using Monte Carlo method
+def estimate_pi(n_samples=1000000):
+    """Estimate π using random points in a square"""
+    x = np.random.uniform(-1, 1, n_samples)
+    y = np.random.uniform(-1, 1, n_samples)
+    inside_circle = (x**2 + y**2) <= 1
+    pi_estimate = 4 * np.sum(inside_circle) / n_samples
+    return pi_estimate
+
+# Test with special operators: +, -, *, /, %, **, //, &, |, ^, ~, <<, >>
+result = (2 ** 3) * (10 // 3) + (15 % 4) - (100 / 7)
+print(f"Result: {result:.4f}")
+
+# Unicode in strings
+symbols = "α β γ δ ε ζ η θ λ μ π σ τ φ ω"
+operators = "± × ÷ √ ∞ ≈ ≠ ≤ ≥ ∫ ∑"
+\end{verbatim}
+
+\subsubsection{LaTeX Equation}
+
+\begin{verbatim}
+\begin{equation}
+\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}
+\end{equation}
+
+\begin{align}
+\nabla \cdot \mathbf{E} &= \frac{\rho}{\epsilon_0} \\
+\nabla \cdot \mathbf{B} &= 0 \\
+\nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t} \\
+\nabla \times \mathbf{B} &= \mu_0 \mathbf{J} + \mu_0 \epsilon_0 \frac{\part
+ial \mathbf{E}}{\partial t}
+\end{align}
+\end{verbatim}
+
+\subsection{Lists with Special Characters}
+
+\subsubsection{Unordered List}
+\begin{itemize}
+\item Item with $\alpha$ (alpha) and $\beta$ (beta)
+\item Mathematical operators: $\int$ $\sum$ $\prod$ $\sqrt{}$
+\item Comparison: $\approx$ $\neq$ $\leq$ $\geq$ $\infty$
+\item Arrows: $\rightarrow$ $\leftarrow$ $\uparrow$ $\downarrow$ $\leftrightarrow$
+\item Symbols: \textcopyright{} \textregistered{} \texttrademark{} \texteuro{} \pounds{} \textyen{}
+\end{itemize}
+
+\subsubsection{Ordered List}
+\begin{enumerate}
+\item First: Calculate $\int_0^1 x^2 dx = \frac{1}{3}$
+\item Second: Evaluate $\sum_{i=1}^{10} i = 55$
+\item Third: Solve $\frac{dy}{dx} = 2x$ to get $y = x^2 + C$
+\item Fourth: Matrix multiplication $\mathbf{A} \times \mathbf{B}$
+\item Fifth: Compute $\lim_{x \to 0} \frac{\sin x}{x} = 1$
+\end{enumerate}
+
+\subsubsection{Nested Lists}
+\begin{itemize}
+\item Top level with $\pi$ $\approx$ 3.14159
+\begin{itemize}
+\item Nested with $e^{i\pi} + 1 = 0$
+\item Another nested: $\sqrt{-1} = i$
+\end{itemize}
+\item Another top: $\infty$ (infinity)
+\begin{itemize}
+\item Sub-item: $\lim_{n \to \infty}$
+\end{itemize}
+\end{itemize}
+
+\subsection{Text Formatting Tests}
+
+\textbf{Bold text} with \_italic text\_ and \texttt{inline code} with special chars: \texttt{α\_β\textasciicircum{}γ} \newline
+
+Regular text with \textbf{bold}, *italic*, and *\textbf{bold italic}* combined. \newline
+
+Text with special characters: @ \# \$ \% \textasciicircum{} \& * ( ) \_ + = \{ \} [ ] | \textbackslash{} : ; " ' < > , . ? / \newline
+
+Escaped characters test: \textbackslash{}\_underscore\textbackslash{}\_ \textbackslash{}*asterisk\textbackslash{}* \textbackslash{}\#hash\textbackslash{}\# \textbackslash{}$dollar\$ \textbackslash{}\%percent\textbackslash{}\% \newline
+
+\subsection{Links and References}
+
+Visit \href{https://www.python.org/}{Python Official} for documentation. \newline
+
+Check out \href{https://numpy.org/}{NumPy} for numerical computing. \newline
+
+Mathematical reference: \href{https://mathworld.wolfram.com/}{Wolfram MathWorld} \newline
+
+\subsection{Advanced Equations Section}
+
+\subsubsection{Schrödinger Equation}
+
+\[
+i\hbar\frac{\partial}{\partial t}\Psi(\mathbf{r},t) = \left[-\frac{\hbar^2}{2m}\nabla^2 + V(\mathbf{r},t)\right]\Psi(\mathbf{r},t)
+\]
+
+\subsubsection{Maxwell's Equations}
+
+\[
+\begin{aligned}
+\nabla \cdot \mathbf{E} &= \frac{\rho}{\epsilon_0} \\
+\nabla \cdot \mathbf{B} &= 0 \\
+\nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t} \\
+\nabla \times \mathbf{B} &= \mu_0\mathbf{J} + \mu_0\epsilon_0\frac{\partial \mathbf{E}}{\partial t}
+\end{aligned}
+\]
+
+\subsubsection{Einstein Field Equations}
+
+\[
+R_{\mu\nu} - \frac{1}{2}Rg_{\mu\nu} + \Lambda g_{\mu\nu} = \frac{8\pi G}{c^4}T_{\mu\nu}
+\]
+
+\subsubsection{Fourier Transform}
+
+\[
+\hat{f}(\xi) = \int_{-\infty}^{\infty} f(x) e^{-2\pi i x \xi} dx
+\]
+
+\subsection{Conclusion}
+
+This document contains: \newline
+\begin{itemize}
+\item Multiple heading levels (\# \#\# \#\#\# \#\#\#\#)
+\item Tables with special characters ($\alpha$ $\beta$ $\gamma$ $\pi$ $\sum$ $\int$)
+\item Mathematical equations ($inline$ and \$\$block\$\$)
+\item Code blocks with various languages
+\item Lists (ordered, unordered, nested)
+\item Special symbols (\textcopyright{}\textregistered{}\texttrademark{}\texteuro{}\pounds{}\textyen{})
+\item Links and references
+\item Text formatting (\textbf{bold}, *italic*, \texttt{code})
+\item Greek letters ($\alpha$ $\beta$ $\gamma$ $\delta$ $\varepsilon$ $\zeta$ $\eta$ $\theta$ $\lambda$ $\mu$ $\pi$ $\sigma$ $\tau$ $\varphi$ $\omega$ $\Gamma$ $\Delta$ $\Theta$ $\Lambda$ $\Xi$ $\Pi$ $\Sigma$ $\Phi$ $\Psi$ $\Omega$)
+\item Mathematical operators ($\pm$ $\times$ $\div$ $\sqrt{}$ $\infty$ $\approx$ $\neq$ $\leq$ $\geq$ $\int$ $\sum$ $\prod$ $\partial$ $\nabla$)
+\item Complex LaTeX equations with matrices, integrals, partial derivatives
+\end{itemize}
+
+
+\end{document}

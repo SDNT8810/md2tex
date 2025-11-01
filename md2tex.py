@@ -528,9 +528,36 @@ if __name__ == '__main__':
                     ],
                 },
                 'Darwin': {  # macOS
-                    'pdflatex': ['/Library/TeX/texbin/pdflatex'],
-                    'xelatex': ['/Library/TeX/texbin/xelatex'],
-                    'lualatex': ['/Library/TeX/texbin/lualatex'],
+                    'pdflatex': [
+                        '/Library/TeX/texbin/pdflatex',
+                        '/usr/local/texlive/2024/bin/universal-darwin/pdflatex',
+                        '/usr/local/texlive/2024/bin/arm64-darwin/pdflatex',
+                        '/usr/local/texlive/2023/bin/universal-darwin/pdflatex',
+                        '/usr/local/texlive/2023/bin/arm64-darwin/pdflatex',
+                        '/opt/local/bin/pdflatex',            # MacPorts
+                        '/opt/homebrew/bin/pdflatex',         # Homebrew (Apple Silicon)
+                        '/usr/local/bin/pdflatex',
+                    ],
+                    'xelatex': [
+                        '/Library/TeX/texbin/xelatex',
+                        '/usr/local/texlive/2024/bin/universal-darwin/xelatex',
+                        '/usr/local/texlive/2024/bin/arm64-darwin/xelatex',
+                        '/usr/local/texlive/2023/bin/universal-darwin/xelatex',
+                        '/usr/local/texlive/2023/bin/arm64-darwin/xelatex',
+                        '/opt/local/bin/xelatex',             # MacPorts
+                        '/opt/homebrew/bin/xelatex',          # Homebrew (Apple Silicon)
+                        '/usr/local/bin/xelatex',
+                    ],
+                    'lualatex': [
+                        '/Library/TeX/texbin/lualatex',
+                        '/usr/local/texlive/2024/bin/universal-darwin/lualatex',
+                        '/usr/local/texlive/2024/bin/arm64-darwin/lualatex',
+                        '/usr/local/texlive/2023/bin/universal-darwin/lualatex',
+                        '/usr/local/texlive/2023/bin/arm64-darwin/lualatex',
+                        '/opt/local/bin/lualatex',            # MacPorts
+                        '/opt/homebrew/bin/lualatex',         # Homebrew (Apple Silicon)
+                        '/usr/local/bin/lualatex',
+                    ],
                 },
             }
             for eng in candidates:
