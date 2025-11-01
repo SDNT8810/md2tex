@@ -5,13 +5,15 @@ A small, no-frills Markdown → LaTeX/PDF converter written in Python. One comma
 ## Highlights
 
 - One-step pipeline: `.md → .tex → .pdf` (runs a LaTeX engine for you)
-- Cross‑platform engine detection: `pdflatex`, `xelatex`, or `lualatex`
+- Cross‑platform engine detection: `pdflatex`, `xelatex`, or `lualatex` (Windows/Linux/macOS)
+- Engine‑flexible LaTeX preamble (via `iftex`) so the same `.tex` compiles on Overleaf and locally with pdfLaTeX/LaTeX or XeLaTeX/LuaLaTeX
 - Unicode‑safe behavior:
   - Preserves raw Unicode exactly inside fenced code blocks (```/~~~)
   - Uses a Unicode‑capable engine automatically when needed
 - Emoji/sticker removal by Unicode ranges (no per‑emoji lists)
 - Inline formatting: `**bold**`, `[links](url)`, and `` `inline code` ``
 - Math: inline `$...$`, display `$$...$$`, and bracketed display blocks using lines with `[` and `]`
+- Auto‑wraps common math used in text (e.g., `\alpha`, `\int`, `\vec{x}`, `x_1`, `x^2`) into `$...$`
 - Tables: GitHub‑style pipe tables scaled to page width
 - Lists: ordered/unordered, nested by indentation (2 spaces per level)
 - Headings: `#` → `\section`, `##` → `\subsection`, `###` → `\subsubsection`, `####` → `\paragraph`
@@ -28,7 +30,8 @@ A small, no-frills Markdown → LaTeX/PDF converter written in Python. One comma
   - Windows: MiKTeX or TeX Live
   - Linux/macOS: TeX Live
 
-The script auto‑detects engines via PATH and known install locations and prefers `xelatex`/`lualatex` when it detects non‑ASCII inside fenced code blocks, otherwise `pdflatex`.
+The script auto‑detects engines via PATH and known install locations and prefers `xelatex`/`lualatex` when it detects non‑ASCII inside fenced code blocks; otherwise it uses `pdflatex`.
+The generated `.tex` includes an engine‑aware preamble: pdfTeX uses `inputenc` + `T1` + `lmodern`, while Xe/LuaLaTeX use `fontspec`.
 
 ## Usage
 
@@ -60,6 +63,7 @@ Outputs:
   - Inline: `$...$`
   - Display: `$$...$$` or bracketed block between lines `[` and `]`
   - Literal `$$...$$` text is preserved (escaped) in regular paragraphs
+  - Auto‑math wrapping: if you accidentally use math commands in text (e.g., `\alpha`, `\int`, `x_1`, `x^2`, `\vec{x}`), they are wrapped into `$...$` automatically
 - Tables
   - Pipe tables with a header and a separator line are supported and auto‑scaled to `\textwidth`
 - Lists
@@ -78,8 +82,12 @@ Outputs:
 - “PDF compilation failed”
   - Check the generated `.tex` next to your `.md`
   - Make sure packages like `amsmath`, `hyperref`, `adjustbox` are available in your LaTeX install
+- “fontspec only works with Xe/LuaLaTeX”
+  - The output `.tex` avoids loading `fontspec` on pdfLaTeX/LaTeX via `iftex`. If you manually edit the preamble, keep `fontspec` under the Xe/Lua branch only.
 - “Unicode in code block breaks with pdflatex”
   - The script prefers `xelatex`/`lualatex` when it detects non‑ASCII in code fences; install one of them if missing
+- Overleaf notes
+  - You can compile the same `.tex` with pdfLaTeX, XeLaTeX, or LuaLaTeX. If you hit Unicode issues, switch the Overleaf compiler to XeLaTeX or LuaLaTeX.
 
 ## Known limitations (by design)
 
