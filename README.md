@@ -86,6 +86,10 @@ Outputs:
 - Images, blockquotes, and task lists are not implemented (kept intentionally simple)
 - This is not a full Markdown parser; it covers the most common patterns used in notes/technical docs
 
+## Credits
+
+- Author: SDNT8810
+
 ## License
 
-Public domain/Unlicense style — feel free to use and modify. If you need a specific license, add it here.
+MIT License — see `LICENSE` file.
