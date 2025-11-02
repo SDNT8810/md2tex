@@ -31,6 +31,190 @@
 
 \begin{document}
 
+\section{md2tex}
+
+A small, no-frills Markdown $\rightarrow$ LaTeX/PDF converter written in Python. One command takes a \texttt{.md} file and produces \texttt{.tex} and \texttt{.pdf} with sensible defaults. \newline
+
+\subsection{Highlights}
+
+\begin{itemize}
+\item One-step pipeline: \texttt{.md → .tex → .pdf} (runs a LaTeX engine for you)
+\item Cross‑platform engine detection: \texttt{pdflatex}, \texttt{xelatex}, or \texttt{lualatex} (Windows/Linux/macOS)
+\item Engine‑flexible LaTeX preamble (via \texttt{iftex}) so the same \texttt{.tex} compiles on Overleaf and locally with pdfLaTeX/LaTeX or XeLaTeX/LuaLaTeX
+\item Unicode‑safe behavior:
+\begin{itemize}
+\item Preserves raw Unicode exactly inside fenced code blocks (```/\textasciitilde{}\textasciitilde{}\textasciitilde{})
+\item Uses a Unicode‑capable engine automatically when needed
+\end{itemize}
+\item Emoji/sticker removal by Unicode ranges (no per‑emoji lists)
+\item Inline formatting: \texttt{**bold**}, \texttt{[links](url)}, and `\texttt{ }inline code\texttt{ }`
+\item Math: inline `$...$\texttt{, display }\$\$...\$\$\texttt{, and bracketed display blocks using lines with }[\texttt{ and }]`
+\item Auto‑wraps common math used in text (e.g., \texttt{\textbackslash{}alpha}, \texttt{\textbackslash{}int}, \texttt{\textbackslash{}vec\{x\}}, \texttt{x\_1}, \texttt{x\textasciicircum{}2}) into `$...$`
+\item Tables: GitHub‑style pipe tables scaled to page width
+\item Lists: ordered/unordered, nested by indentation (2 spaces per level)
+\item Headings: \texttt{\#} $\rightarrow$ \texttt{\textbackslash{}section}, \texttt{\#\#} $\rightarrow$ \texttt{\textbackslash{}subsection}, \texttt{\#\#\#} $\rightarrow$ \texttt{\textbackslash{}subsubsection}, \texttt{\#\#\#\#} $\rightarrow$ \texttt{\textbackslash{}paragraph}
+\begin{itemize}
+\item Leading numeric prefixes like \texttt{1. Title} are stripped from heading text
+\item Subsubsections numbered as \texttt{1, 2, 3} (no \texttt{0.0.1})
+\end{itemize}
+\item Horizontal rules: \texttt{---}, \texttt{***}, or \texttt{\_\_\_}
+\item Newlines: a single newline in Markdown becomes a visible line break in LaTeX (\texttt{\textbackslash{}newline})
+\item Cleanup: removes LaTeX aux files after a successful build (keeps only \texttt{.md}, \texttt{.tex}, \texttt{.pdf}, \texttt{.py})
+\end{itemize}
+
+\subsection{Requirements}
+
+\begin{itemize}
+\item Python 3.8+
+\item A LaTeX distribution:
+\begin{itemize}
+\item Windows: MiKTeX or TeX Live
+\item Linux/macOS: TeX Live
+\end{itemize}
+\end{itemize}
+
+The script auto‑detects engines via PATH and known install locations and prefers \texttt{xelatex}/\texttt{lualatex} when it detects non‑ASCII inside fenced code blocks; otherwise it uses \texttt{pdflatex}. \newline
+The generated \texttt{.tex} includes an engine‑aware preamble: pdfTeX uses \texttt{inputenc} + \texttt{T1} + \texttt{lmodern}, while Xe/LuaLaTeX use \texttt{fontspec}. \newline
+
+\subsection{Usage}
+
+\begin{itemize}
+\item Windows (PowerShell):
+\end{itemize}
+
+\begin{verbatim}
+python md2tex.py your_file.md
+\end{verbatim}
+
+\begin{itemize}
+\item Linux/macOS:
+\end{itemize}
+
+\begin{verbatim}
+python3 md2tex.py your_file.md
+\end{verbatim}
+
+Outputs: \newline
+\begin{itemize}
+\item \texttt{your\_file.tex} --- generated LaTeX
+\item \texttt{your\_file.pdf} --- compiled PDF (if a LaTeX engine is installed)
+\end{itemize}
+
+Tip: If you run the script without a file, or pass "/" or ".", it defaults to \texttt{README.md} in the current directory. For example: \newline
+
+\begin{itemize}
+\item Windows (PowerShell):
+\end{itemize}
+
+\begin{verbatim}
+python md2tex.py
+python md2tex.py /
+\end{verbatim}
+
+\begin{itemize}
+\item Linux/macOS:
+\end{itemize}
+
+\begin{verbatim}
+python3 md2tex.py
+python3 md2tex.py /
+\end{verbatim}
+
+\subsection{Markdown support details}
+
+\begin{itemize}
+\item Paragraphs/newlines
+\begin{itemize}
+\item Single newline $\rightarrow$ \texttt{\textbackslash{}\textbackslash{}newline} (forced line break)
+\item Blank line $\rightarrow$ paragraph break
+\end{itemize}
+\item Code
+\begin{itemize}
+\item Fenced code blocks (``\texttt{/~~~) are emitted as }verbatim` with Unicode preserved
+\item Inline code uses \texttt{\textbackslash{}texttt\{...\}} with safe escaping
+\end{itemize}
+\item Math
+\begin{itemize}
+\item Inline: `$...$`
+\item Display: \texttt{\$\$...\$\$} or bracketed block between lines \texttt{[} and \texttt{]}
+\item Literal \texttt{\$\$...\$\$} text is preserved (escaped) in regular paragraphs
+\item Auto‑math wrapping: if you accidentally use math commands in text (e.g., \texttt{\textbackslash{}alpha}, \texttt{\textbackslash{}int}, \texttt{x\_1}, \texttt{x\textasciicircum{}2}, \texttt{\textbackslash{}vec\{x\}}), they are wrapped into `$...$` automatically
+\end{itemize}
+\item Tables
+\begin{itemize}
+\item Pipe tables with a header and a separator line are supported and auto‑scaled to \texttt{\textbackslash{}textwidth}
+\end{itemize}
+\item Lists
+\begin{itemize}
+\item \texttt{-}, \texttt{*} unordered; \texttt{1.} ordered
+\item Nesting by 2‑space indentation per level
+\end{itemize}
+\item Headings
+\begin{itemize}
+\item \texttt{\#}, \texttt{\#\#}, \texttt{\#\#\#}, \texttt{\#\#\#\#} $\rightarrow$ LaTeX sectioning commands
+\item Leading numbering like \texttt{1. Title} in source is removed from the title text
+\end{itemize}
+\item Emojis/stickers
+\begin{itemize}
+\item Removed globally by Unicode ranges (flags, pictographs, emoticons, dingbats, skin tones, VS‑16/ZWJ)
+\end{itemize}
+\end{itemize}
+
+\subsection{Troubleshooting}
+
+\begin{itemize}
+\item “No LaTeX engine found”
+\begin{itemize}
+\item Install MiKTeX (Windows) or TeX Live (Linux/macOS) and ensure binaries are on PATH
+\end{itemize}
+\item “PDF compilation failed”
+\begin{itemize}
+\item Check the generated \texttt{.tex} next to your \texttt{.md}
+\item Make sure packages like \texttt{amsmath}, \texttt{hyperref}, \texttt{adjustbox} are available in your LaTeX install
+\end{itemize}
+\item “fontspec only works with Xe/LuaLaTeX”
+\begin{itemize}
+\item The output \texttt{.tex} avoids loading \texttt{fontspec} on pdfLaTeX/LaTeX via \texttt{iftex}. If you manually edit the preamble, keep \texttt{fontspec} under the Xe/Lua branch only.
+\end{itemize}
+\item “Unicode in code block breaks with pdflatex”
+\begin{itemize}
+\item The script prefers \texttt{xelatex}/\texttt{lualatex} when it detects non‑ASCII in code fences; install one of them if missing
+\end{itemize}
+\item Overleaf notes
+\begin{itemize}
+\item You can compile the same \texttt{.tex} with pdfLaTeX, XeLaTeX, or LuaLaTeX. If you hit Unicode issues, switch the Overleaf compiler to XeLaTeX or LuaLaTeX.
+\end{itemize}
+\end{itemize}
+
+\subsection{Known limitations (by design)}
+
+\begin{itemize}
+\item Images, blockquotes, and task lists are not implemented (kept intentionally simple)
+\item This is not a full Markdown parser; it covers the most common patterns used in notes/technical docs
+\end{itemize}
+
+\subsection{Comprehensive sample (README as test)}
+
+This README doubles as the end-to-end test document. You can run the converter directly on it to produce a PDF: \newline
+
+\begin{itemize}
+\item Windows (PowerShell):
+\end{itemize}
+
+\begin{verbatim}
+python md2tex.py README.md
+\end{verbatim}
+
+\begin{itemize}
+\item Linux/macOS:
+\end{itemize}
+
+\begin{verbatim}
+python3 md2tex.py README.md
+\end{verbatim}
+
+Below is the full “hard cases” sample previously in \texttt{test.md}. \newline
+
 \section{Advanced Mathematical Document}
 
 This document tests all markdown features including special characters, equations, tables, and more. \newline
@@ -331,6 +515,12 @@ This document contains: \newline
 \item Greek letters ($\alpha$ $\beta$ $\gamma$ $\delta$ $\varepsilon$ $\zeta$ $\eta$ $\theta$ $\lambda$ $\mu$ $\pi$ $\sigma$ $\tau$ $\varphi$ $\omega$ $\Gamma$ $\Delta$ $\Theta$ $\Lambda$ $\Xi$ $\Pi$ $\Sigma$ $\Phi$ $\Psi$ $\Omega$)
 \item Mathematical operators ($\pm$ $\times$ $\div$ $\sqrt{}$ $\infty$ $\approx$ $\neq$ $\leq$ $\geq$ $\int$ $\sum$ $\prod$ $\partial$ $\nabla$)
 \item Complex LaTeX equations with matrices, integrals, partial derivatives
+\end{itemize}
+
+\subsection{Credits}
+
+\begin{itemize}
+\item Author: SDNT8810
 \end{itemize}
 
 

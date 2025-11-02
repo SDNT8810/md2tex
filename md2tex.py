@@ -451,8 +451,35 @@ def md_to_latex(md_text, engine: str = 'pdflatex', system_name: str = None):
     return latex_doc
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        input_file = sys.argv[1]
+    # Resolve input markdown file with a default to README.md when no file is provided
+    def _resolve_input_file(argv) -> str:
+        # Default when no argument provided
+        if len(argv) <= 1:
+            return 'README.md'
+
+        raw = (argv[1] or '').strip()
+        # Treat common "no-op" or sentinel args as README.md
+        if raw in ('/', '\\', '.', './', '.\\'):
+            return 'README.md'
+        # If a directory is provided, use README.md inside it
+        if os.path.isdir(raw):
+            return os.path.join(raw, 'README.md')
+        return raw
+
+    input_file = _resolve_input_file(sys.argv)
+
+    if os.path.isdir(input_file):
+        # Safety: if somehow a directory slipped through, look for README.md inside
+        input_file = os.path.join(input_file, 'README.md')
+
+    if os.path.basename(input_file).lower() == 'readme.md' and not os.path.exists(input_file):
+        # Try case-insensitive match in current directory
+        for name in os.listdir('.'):
+            if name.lower() == 'readme.md':
+                input_file = name
+                break
+
+    if os.path.exists(input_file):
         with open(input_file, 'r', encoding='utf-8') as f:
             md_content = f.read()
         
@@ -636,4 +663,7 @@ if __name__ == '__main__':
             print('✗ No LaTeX engine found (pdflatex/xelatex/lualatex). Please install MiKTeX or TeX Live.')
             print('  Download MiKTeX: https://miktex.org/download')
     else:
+        # Friendly help when file not found; mention default behavior
+        print('✗ Input file not found. Provide a Markdown file or ensure README.md exists.')
         print('Usage: python md2tex.py <markdown_file>')
+        print('Hint: Running with no argument (or with "/" or ".") defaults to README.md')
